@@ -1,94 +1,120 @@
+# izvēlēties vārdu kas jāatmin
+# mēģināt uzmināt burtus
+# jāpārbauda vai burts ir iekš vārda
+# ļaut minēt burtu vairākas reizes
+
 import random
- 
-def making_a_guess():
-    x = 0
-    global update_display
-    correct_guess = False
-    for letter in chosen_word:
-        if guess.lower() == chosen_word[x]:
-            blank_list[x] = guess.lower()
-            correct_guess = True
-        x += 1
-    if correct_guess == False:
-        print(f"There is no {guess}, sorry.")
-        update_display += 1
-    x = 0
- HANGMANPICS = ['''
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-=========''']
- 
-word_list = ["aardvark", "baboon", "camel", "jazz", "grass", "follow", "castle", "cloud"]
- 
-chosen_word = list(random.choice(word_list))
- 
-blank = ""
-for letter in chosen_word:
-    blank += "_"
-blank_list = list(blank)
- 
-update_display = 0
- 
-#----------------------------------------------------------------------------------------------
- 
-print(HANGMANPICS[update_display])
-guess = input(f"Welcome to hangman.\n{blank}\nMake a guess? ")
-making_a_guess()
-print(HANGMANPICS[update_display])
-print(''.join(blank_list))
-while update_display < 6:
-    if blank_list == chosen_word:
-        print("YOU WIN!")
+print("Hi! Welcome to the game 'Hangman'")
+
+words_categories = {
+    "Animals" : ["kangaroo", 'mongoose', 'chameleon', 'chimpanzee', 'basilisk', "alligator", "anteater", "duckbill platypus", "mandrill"],
+    "EU countries" : ["austria", "bulgaria", "czech republic", "denmark", "luxembourg", "serbia", "montenegro", "kosovo", "andorra", "latvia"],
+    "Fruits" : ["watermelon", "grapefruit", "pomogranate", "blueberry", "papaya", "dragonfruit", "cantaloupe", "apricot", "passion fruit", "guava"]
+    }
+categories = input("Choose  a category (Animals), (EU countries), (Fruits): ")
+chosen_list = words_categories[categories]
+
+hangman = [
+    """
+       +---+
+       |   |
+           |
+           |
+           |
+           |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+          |
+          |
+          |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+      |   |
+          |
+          |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+     /|   |
+          |
+          |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+     /|\  |
+          |
+          |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+     /|\  | 
+     /    |
+          |
+    =========
+    """,
+    """
+      +---+
+      |   |
+      o   |
+     /|\  |
+     / \  |
+          |
+    =========
+    """
+]
+
+max_index = len(chosen_list) - 1 # length of a list
+random_index = random.randint(0, max_index)
+random_word = chosen_list[random_index] # 0 1 2 3
+
+
+fails = 0
+guessed_letters = [' ']
+
+while fails < 6:
+
+    word = "" 
+    for char in random_word: 
+        if char in guessed_letters: 
+            word += char 
+        else:
+            word += "-" 
+
+    
+    print(hangman[fails])
+    print("Guessed letters:", guessed_letters)
+    print(word.capitalize())
+
+    if word == random_word:
+        print ("You won!")
         break
-    guess = input("Make another guess? ")
-    making_a_guess()
-    print(HANGMANPICS[update_display])
-    print(''.join(blank_list))
-if update_display == 6:
-    print("GAME OVER.")
+
+    letter = input("Enter your letter: ").lower()
+    guessed_letters.append(letter)
+
+    if letter in random_word:
+        print("Letter is in the word!")
+    else:
+        print("Letter is not in the word!")
+        fails += 1
+
+if fails == 6:
+    print(hangman[6])
+    print("You lost!")
