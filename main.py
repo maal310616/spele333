@@ -1,8 +1,3 @@
-# izvēlēties vārdu kas jāatmin
-# mēģināt uzmināt burtus
-# jāpārbauda vai burts ir iekš vārda
-# ļaut minēt burtu vairākas reizes
-
 import random
 print("Hi! Welcome to the game 'Hangman'")
 
